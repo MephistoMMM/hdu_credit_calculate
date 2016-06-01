@@ -1,0 +1,78 @@
+# write the categories of courses into this file
+
+Type 公共基础课 course_code 44
+A230103D
+A120125D
+A120129D
+A120130D
+A120123D
+T130101D
+T13000..
+T13000..
+T13000..
+A110110D
+A110111D
+A110112D
+A110113D
+A11000..
+A11000..
+A071425D
+A071426D
+A071427D
+A070202D
+A070214D
+# self addition
+A230104D 
+A2301011
+A2301020
+A230107D
+A1103750
+A1101030
+
+Type 通识课 course_property 10
+.+?任选
+
+Type 学科基础课 course_code 34
+A070506D
+A070507D
+A070347D
+A070348D
+A070106D
+A101007D
+A101118D
+A101325D
+A101164D
+A101166D
+A101328D
+A101329D
+A030242D
+# self addition
+A0715012
+A0718030
+
+Type 专业核心课 course_code 20
+A101167D
+A101168D
+A101169D
+A101170D
+A101171D
+A101172D
+
+Type 专业模块课 course_code 22
+^B.+
+S101202D
+
+Type 交叉与个性发展 course_property 10
+.+?任选
+
+Type 实践环节 course_code 20
+^S.+
+
+Type 课外必修项目 course_property 12.5
+课外必修
+
+Type 课外选修项目 course_code 2
+W0001040
+W0001050
+W0001060
+W0002250
