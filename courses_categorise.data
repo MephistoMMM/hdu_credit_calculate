@@ -8,7 +8,7 @@
 # "requirement_credit" is the requirement credit in training plan
 
 Type 公共基础课 course_code 44
-# all following item is regExg
+# all following item is regExp
 A230103D
 A120125D
 A120129D

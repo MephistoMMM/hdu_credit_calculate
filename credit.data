@@ -1,6 +1,6 @@
 # 学年	学期	课程代码	课程名称	课程性质	课程归属	学分	成绩	补考成绩	是否重修	开课学院
-# academic_year semester course_code course_name course_property course_belong credit grades  restudy      course_from
-#  0               0          1           1             1               0      1      0   0    0           1
+# academic_year semester course_code course_name course_property course_belong credit grades second_grades restudy      course_from
+#  0               0          1           1             1               0      1      0   0    0              0             1
 
 2014-2015  1	 A110110D	大学英语精读1	公共必修	 	2.0	78	 	 	外国语学院	 	 
 2014-2015	1	A110112D	大学英语听说1	公共必修	 	2.0	81	 	 	外国语学院	 	 
