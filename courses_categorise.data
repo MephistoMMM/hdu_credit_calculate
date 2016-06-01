@@ -1,6 +1,14 @@
 # write the categories of courses into this file
+#
+# Type type_name basis_key requirement_credit
+#
+# "Type" is the key word for parse the file
+# "type_name" is the name of the type
+# "basis_key" is the key of the basis of classification(you could see all basis_key in credit.data)
+# "requirement_credit" is the requirement credit in training plan
 
 Type 公共基础课 course_code 44
+# all following item is regExg
 A230103D
 A120125D
 A120129D

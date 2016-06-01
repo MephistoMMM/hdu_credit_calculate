@@ -116,7 +116,7 @@ def main():
     """
     * get and parse data
     """
-    course_categories = get_course_categories("courses_categorise.datas")
+    course_categories = get_course_categories("courses_categorise.data")
     student_credit_datas = get_datas("credit.data")
 
     failed_to_classify_datas = []
