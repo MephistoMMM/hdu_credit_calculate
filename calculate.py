@@ -18,35 +18,33 @@ def get_datas(filename):
     get data from filename, then parse it
     """
     result = []
-    space_re = r"\b +\b"
+    space_re = r"[ \t]"
     with open(filename, "r") as f_descriptor:
         for data in f_descriptor.readlines():
             # replace spaces which used as borders
             # so, you should not write spaces into the not empty item!
-            data = re.sub(space_re, "\t", data).strip()
+            data = re.sub(space_re, " ", data).strip()
             if len(data) == 0 or data.startswith("#"):
                 continue
 
             # strip each item in data list expect space item
             # filter "", they may be exist at the end of list
             data = list(
-                filter(lambda x: x != "",
-                       map(lambda x: x.strip() if x != " " else x,
-                           data.split("\t"))))
-            # data should contain 13 items, the items of left end will not lack
+                filter(lambda x: x != "", data.split(" ")))
+            # data should contain 8 items, the items of left end will not lack
             # so we should add additional space items to right end
-            if len(data) < 13:
-                spaces = [" " for i in range(13)]
+            if len(data) < 8:
+                spaces = [" " for i in range(8)]
                 spaces[:len(data)] = data[:]
                 data = spaces
 
-            assert len(data) == 13
+            assert len(data) == 8
             result.append({
                 "course_code": data[2],
                 "course_name": data[3],
                 "course_property": data[4],
-                "course_from": data[10],
-                "credit": float(data[6])})
+                "course_from": data[7],
+                "credit": float(data[5])})
 
     return result
 
