@@ -12,6 +12,17 @@ from collections import namedtuple
 
 COURSECATEGORY = namedtuple("COURSECATEGORY", 
                             ("name", "basis_key", "requirement", "valid_value", "items"))
+COURSEDATA = namedtuple("COURSEDATA",
+                            ("course_code", "course_name", "course_property", "course_from", "credit"))
+
+cd_map = {
+    "course_code": 0,
+    "course_name": 1,
+    "course_property": 2,
+    "course_from": 3,
+    "credit": 4
+}
+
 
 def get_datas(filename):
     """
@@ -39,12 +50,7 @@ def get_datas(filename):
                 data = spaces
 
             assert len(data) == 8
-            result.append({
-                "course_code": data[2],
-                "course_name": data[3],
-                "course_property": data[4],
-                "course_from": data[7],
-                "credit": float(data[5])})
+            result.append(COURSEDATA(data[2], data[3], data[4], data[7], float(data[5])))
 
     return result
 
@@ -74,7 +80,7 @@ def get_course_categories(filename):
                     raise ValueError("invild line:\n\t'{}'".format(data))
 
                 current_category = COURSECATEGORY(
-                    type_list[1], type_list[2], float(type_list[3]), [], [])
+                    type_list[1], type_list[2], float(type_list[3]), [], set())
                 continue
 
             current_category.valid_value.append(data)
@@ -90,7 +96,7 @@ def check_data_in_category(data, category):
     key = category.basis_key
     result = False
     for valid_re in category.valid_value:
-        if re.match(valid_re, data[key], re.I):
+        if re.match(valid_re, data[cd_map[key]], re.I):
             result = True
             break
 
@@ -101,7 +107,7 @@ def sum_of_credit(datas):
     calculate the sum of credit of datas, 
     datas could be list or iterables
     """
-    return sum(map(lambda x: x["credit"], datas))
+    return sum(map(lambda x: x.credit, datas))
 
 def sum_of_require(categories):
     """
@@ -117,24 +123,20 @@ def main():
     course_categories = get_course_categories("courses_categorise.data")
     student_credit_datas = get_datas("credit.data")
 
-    failed_to_classify_datas = []
+    failed_to_classify_datas = set()
+    calculeted_courses = set()
 
     for data in student_credit_datas:
+        valid = False
         for category in course_categories:
             if check_data_in_category(data, category):
-                category.items.append(data)
-                break
-        else:
-            failed_to_classify_datas.append(data)
-
-    if len(failed_to_classify_datas) != 0:
-        print("Some datas are failed to classify:")
-        for data in failed_to_classify_datas:
-            print(("{course_code} {course_name}"
-                   " {course_property} {course_from} {credit}").format(**data))
+                valid = True
+                category.items.add(data)
+        if not valid:
+            failed_to_classify_datas.add(data)
 
     is_in_course_requirement = lambda x: re.match("课外", x.name) is None
-    is_in_course = lambda x: re.match("课外", x["course_property"]) is None
+    is_in_course = lambda x: re.match("课外", x.course_property) is None
     total_requirement = sum_of_require(course_categories)
     total = sum_of_credit(student_credit_datas)
     in_course_requirement = sum_of_require(
@@ -153,13 +155,31 @@ def main():
     print("")
 
     for category in course_categories:
-        category_total = sum_of_credit(category.items)
+        category.items.difference_update(calculeted_courses)
+        category_total = 0
+
+        for i in category.items:
+            if category_total+i.credit <= category.requirement:
+                category_total += i.credit
+                calculeted_courses.add(i)
+
         print("Type name:{}     {}/{}".format(
             category.name, category_total, category.requirement))
         for data in category.items:
-            print(("\t{course_code} {course_name}"
-                   " {course_property} {course_from} {credit}").format(**data))
+            print(("\t{} {} {} {} {}").format(*data))
         print("")
+
+
+    if len(failed_to_classify_datas) != 0:
+        print("Some datas are failed to classify:")
+        for data in failed_to_classify_datas:
+            print(("\t{} {} {} {} {}").format(*data))
+
+    lastdata = set(student_credit_datas) - calculeted_courses
+    if len(lastdata) != 0:
+        print("Some datas are classified but credit is full in its category:")
+        for data in failed_to_classify_datas:
+            print(("\t{} {} {} {} {}").format(*data))
 
 try:
     main()

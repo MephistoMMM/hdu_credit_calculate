@@ -38,8 +38,9 @@ A1103750
 A1101030
 A1103190
 
-Type 通识课 course_property 10
-.+?任选
+Type 通识课 course_code 10
+^C.+
+# .+?任选
 
 Type 学科基础课 course_code 34
 A070506D
@@ -71,8 +72,10 @@ Type 专业模块课 course_code 22
 ^B.+
 S101202D
 
-Type 交叉与个性发展 course_property 10
-.+?任选
+Type 交叉与个性发展 course_code 10
+^B.+
+^C.+
+# .+?任选
 
 Type 实践环节 course_code 20
 ^S.+
