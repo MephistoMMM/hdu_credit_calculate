@@ -15,15 +15,6 @@ COURSECATEGORY = namedtuple("COURSECATEGORY",
 COURSEDATA = namedtuple("COURSEDATA",
                             ("course_code", "course_name", "course_property", "course_from", "credit"))
 
-cd_map = {
-    "course_code": 0,
-    "course_name": 1,
-    "course_property": 2,
-    "course_from": 3,
-    "credit": 4
-}
-
-
 def get_datas(filename):
     """
     get data from filename, then parse it
@@ -96,7 +87,7 @@ def check_data_in_category(data, category):
     key = category.basis_key
     result = False
     for valid_re in category.valid_value:
-        if re.match(valid_re, data[cd_map[key]], re.I):
+        if re.match(valid_re, data._asdict()[key], re.I):
             result = True
             break
 
