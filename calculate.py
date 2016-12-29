@@ -147,16 +147,18 @@ def main():
 
     for category in course_categories:
         category.items.difference_update(calculeted_courses)
+        valid_items = set()
         category_total = 0
 
         for i in category.items:
             if category_total+i.credit <= category.requirement:
                 category_total += i.credit
                 calculeted_courses.add(i)
+                valid_items.add(i)
 
         print("Type name:{}     {}/{}".format(
             category.name, category_total, category.requirement))
-        for data in category.items:
+        for data in valid_items:
             print(("\t{} {} {} {} {}").format(*data))
         print("")
 
