@@ -7,7 +7,7 @@ hdu\_credit\_calculate(hcc) 能够根据你在 **courses_categories.data** 中�
 
 result example: 
 
-![result](http://7xtgln.com1.z0.glb.clouddn.com/result.png)
+![result](./result.png)
 
 ### Usage
 
