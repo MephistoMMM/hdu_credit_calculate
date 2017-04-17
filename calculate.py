@@ -107,12 +107,12 @@ def sum_of_require(categories):
     """
     return sum(map(lambda x: x.requirement, categories))
 
-def print_data(data):
+def combina_course_line(data):
     """
     print data in a special format
     """
-    print(("\t{} {} {} {} {}").format(
-        colored(data[0], "blue"), data[1], data[2], data[3], colored(data[4], "green")))
+    return "\t{} {} {} {} {}".format(
+        colored(data[0], "blue"), data[1], data[2], data[3], colored(data[4], "green"))
 
 def combina_color_ratio(count, requirement):
     """
@@ -179,19 +179,23 @@ def main():
         print(colored("Type name", "yellow", attrs=["bold"]) + ":{}     {}".format(
             colored(category.name, "cyan"), combina_color_ratio(category_total, category.requirement)))
         for data in valid_items:
-            print_data(data)
+            print(combina_course_line(data))
         print("")
 
     if len(failed_to_classify_datas) != 0:
         print("Some datas are failed to classify:")
         for data in failed_to_classify_datas:
-            print_data(data)
+            print(combina_course_line(data))
 
     lastdata = set(student_credit_datas) - calculeted_courses
-    if len(lastdata) != 0:
-        cprint("Some datas are classified but credit is full in its category:", "red")
-        for data in lastdata:
-            print_data(data)
+    if len(lastdata) == 0:
+        return
+
+    cprint("Some datas are classified but credit is full in its category:", "red")
+    for data in lastdata:
+        for c in course_categories:
+            if data in c.items:
+                print(combina_course_line(data) + colored("{: >20}".format(c.name), "cyan"))
 
 try:
     main()
