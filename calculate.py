@@ -9,6 +9,7 @@ Email: mephistommm@gmail.com
 import re
 
 from collections import namedtuple
+from tcolor import colored, cprint
 
 COURSECATEGORY = namedtuple("COURSECATEGORY", 
                             ("name", "basis_key", "requirement", "valid_value", "items"))
@@ -106,6 +107,24 @@ def sum_of_require(categories):
     """
     return sum(map(lambda x: x.requirement, categories))
 
+def print_data(data):
+    """
+    print data in a special format
+    """
+    print(("\t{} {} {} {} {}").format(
+        colored(data[0], "blue"), data[1], data[2], data[3], colored(data[4], "green")))
+
+def combina_color_ratio(count, requirement):
+    """
+    combina and color a ratio string
+    """
+    ratio = "{}/{}".format(count, requirement)
+    if count == requirement:
+        ratio = colored(ratio, "green")
+    else:
+        ratio = colored(ratio, "magenta")
+
+    return ratio
 
 def main():
     """
@@ -140,10 +159,10 @@ def main():
     out_course = sum_of_credit(
         filter(lambda x: not is_in_course(x), student_credit_datas))
 
-    print("total: {}/{}    in_course: {}/{}   out_course: {}/{}".format(
-        total, total_requirement,
-        in_course, in_course_requirement,
-        out_course, out_course_requirement))
+    print("{}: {}    {}: {}   {}: {}".format(
+        colored("total", "yellow"), combina_color_ratio(total, total_requirement),
+        colored("in_course", "yellow"), combina_color_ratio(in_course, in_course_requirement),
+        colored("out_course", "yellow"), combina_color_ratio(out_course, out_course_requirement)))
     print("")
 
     for category in course_categories:
@@ -157,23 +176,22 @@ def main():
                 calculeted_courses.add(i)
                 valid_items.add(i)
 
-        print("Type name:{}     {}/{}".format(
-            category.name, category_total, category.requirement))
+        print(colored("Type name", "yellow", attrs=["bold"]) + ":{}     {}".format(
+            colored(category.name, "cyan"), combina_color_ratio(category_total, category.requirement)))
         for data in valid_items:
-            print(("\t{} {} {} {} {}").format(*data))
+            print_data(data)
         print("")
-
 
     if len(failed_to_classify_datas) != 0:
         print("Some datas are failed to classify:")
         for data in failed_to_classify_datas:
-            print(("\t{} {} {} {} {}").format(*data))
+            print_data(data)
 
     lastdata = set(student_credit_datas) - calculeted_courses
     if len(lastdata) != 0:
-        print("Some datas are classified but credit is full in its category:")
+        cprint("Some datas are classified but credit is full in its category:", "red")
         for data in lastdata:
-            print(("\t{} {} {} {} {}").format(*data))
+            print_data(data)
 
 try:
     main()
