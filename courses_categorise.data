@@ -75,7 +75,6 @@ Type 专业模块课 course_code 22
 S101202D
 
 Type 交叉与个性发展 course_code 10
-^B.+
 ^C.+
 # .+?任选
 

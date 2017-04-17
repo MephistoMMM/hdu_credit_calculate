@@ -126,6 +126,7 @@ def main():
         if not valid:
             failed_to_classify_datas.add(data)
 
+    # filter in course data and out course data
     is_in_course_requirement = lambda x: re.match("课外", x.name) is None
     is_in_course = lambda x: re.match("课外", x.course_property) is None
     total_requirement = sum_of_require(course_categories)
@@ -171,7 +172,7 @@ def main():
     lastdata = set(student_credit_datas) - calculeted_courses
     if len(lastdata) != 0:
         print("Some datas are classified but credit is full in its category:")
-        for data in failed_to_classify_datas:
+        for data in lastdata:
             print(("\t{} {} {} {} {}").format(*data))
 
 try:
